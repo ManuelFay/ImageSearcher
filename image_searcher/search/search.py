@@ -25,6 +25,8 @@ class Search:
 
     def reindex(self):
         waiting_list = set(self.loader.search_tree()) - set(self.stored_embeddings.get_image_paths())
+        if not waiting_list:
+            return
 
         # TODO: Optimize (batch, use dataloader, remove custom batching)
         for image_path in tqdm(waiting_list):
@@ -32,7 +34,8 @@ class Search:
                 image = list(*self.loader.open_images([image_path]))
                 self.stored_embeddings.add_embedding(image_path, self.embedder.embed_images(image))
             except Exception as exception:
-                logging.warning(f"Image {image_path} has failed to process")
+                logging.warning(f"Image {image_path} has failed to process - adding it to blacklist.")
+                self.stored_embeddings.add_embedding(image_path, torch.zeros((1, 512)))
                 logging.warning(exception)
 
         self.stored_embeddings.update_file()

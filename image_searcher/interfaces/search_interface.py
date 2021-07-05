@@ -14,7 +14,12 @@ class NaiveSearch:
 
     def rank_images(self, query: str) -> List[Tuple[str, float]]:
         assert isinstance(query, str)
-        image_embeds = self.embedder.embed_images(self.image_paths)
         text_embeds = self.embedder.embed_text(query)
+
+        image_embeds = None
+        for images in self.loader.open_images(self.image_paths):
+            new_embeds = self.embedder.embed_images(images)
+            image_embeds = torch.cat((image_embeds, new_embeds), dim=0) if image_embeds is not None else new_embeds
+
         scores = (torch.matmul(text_embeds, image_embeds.t()) * 100).softmax(dim=1).squeeze().numpy()
         return sorted(list(zip(self.image_paths, scores)), key=lambda x: x[1], reverse=True)

@@ -14,7 +14,7 @@ Currently, the non-optimized usage is as follows. It computes the embeddings of 
 a picked dictionary for further reference.
 
 ```python
-from image_searcher.search.search import Search
+from image_searcher import Search
 
 searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/")
 ranked_images = searcher.rank_images("A photo of a bird.")

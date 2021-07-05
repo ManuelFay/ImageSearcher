@@ -29,4 +29,4 @@ class ClipEmbedder:
             inputs = self.processor(text=text, images=None, return_tensors="pt", padding=True)
             text_embeds = self.model.get_text_features(**inputs)
             text_embeds = text_embeds / text_embeds.norm(dim=-1, keepdim=True)
-            return text_embeds
+        return text_embeds

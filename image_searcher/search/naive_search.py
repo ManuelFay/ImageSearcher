@@ -10,7 +10,7 @@ class NaiveSearch:
     def __init__(self, image_dir_path: str):
         self.embedder = ClipEmbedder()
         self.loader = ImageLoader(image_dir_path=image_dir_path)
-        self.image_paths = self.loader.search_tree()[:6]
+        self.image_paths = self.loader.search_tree()
 
     def rank_images(self, query: str) -> List[Tuple[str, float]]:
         assert isinstance(query, str)

@@ -13,7 +13,8 @@ class ImageLoader:
 
     def search_tree(self):
         if self.traverse:
-            image_files = [os.path.join(root, file) for root, dirs, files in os.walk(self.image_dir_path) for file in files
+            image_files = [os.path.join(root, file) for root, dirs, files in os.walk(self.image_dir_path) for file in
+                           files
                            if file.endswith(self.accepted_formats)]
         else:
             image_files = [os.path.join(self.image_dir_path, file) for file in os.listdir(self.image_dir_path)
@@ -22,5 +23,4 @@ class ImageLoader:
 
     def open_images(self, image_paths: List[str]) -> Generator:
         for idx in range(0, len(image_paths), self.batch_size):
-            # images: List[Image.Image] = []
             yield [Image.open(file) for file in image_paths[idx:min(idx+self.batch_size, len(image_paths))]]

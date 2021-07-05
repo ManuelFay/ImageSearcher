@@ -1,0 +1,6 @@
+# Dev requirements
+
+-e .
+
+pylint
+unittest

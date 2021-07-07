@@ -13,7 +13,7 @@ setup(
         "torch",
         "ftfy",
         "transformers",
-        "Pillow"
+        "Pillow",
     ],
     python_requires=">=3.7,<4.0",
 )

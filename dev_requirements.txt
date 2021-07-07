@@ -2,5 +2,9 @@
 
 -e .
 
+gunicorn
+flask
+flask_cors
+
 pylint
 unittest

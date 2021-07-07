@@ -1,0 +1,7 @@
+image_dir_path: /home/manu/Downloads/facebook_logs/messages/inbox/
+traverse: false
+
+port:
+host:
+debug:
+threaded:

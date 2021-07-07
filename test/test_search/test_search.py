@@ -10,6 +10,7 @@ class TestSearch(unittest.TestCase):
         logging.basicConfig(filename=None, level=logging.INFO)
         self.image_dir_path = "/home/manu/perso/ImageSearcher/data/"
         # self.image_dir_path = "/home/manu/Downloads/"
+        self.tearDown()
         self.searcher = Search(image_dir_path=self.image_dir_path)
 
     def tearDown(self) -> None:

@@ -23,5 +23,9 @@ class ImageLoader:
 
     def open_images(self, image_paths: List[str]) -> Generator:
         for idx in range(0, len(image_paths), self.batch_size):
-            yield [Image.open(file).convert('RGB') for file in
+            yield [self.open_image(file) for file in
                    image_paths[idx:min(idx + self.batch_size, len(image_paths))]]
+
+    @staticmethod
+    def open_image(image_path: str) -> Image.Image:
+        return Image.open(image_path).convert('RGB')

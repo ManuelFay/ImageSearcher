@@ -14,7 +14,7 @@ class RunFlaskCommand:
 
     def __init__(self, config_path: str):
         self.searcher = None
-        self.config = FlaskConfig(**yaml.load(open(config_path, 'r')))
+        self.config = FlaskConfig(**yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader))
 
     def get_best_images(self, n: int = 10):
         """Routine that runs the QA inference pipeline.

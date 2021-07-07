@@ -19,9 +19,9 @@ class RunFlaskCommand:
     def get_best_images(self, n: int = 10):
         """Routine that runs the QA inference pipeline.
         """
-        user_request = request.get_json()
-        user_query = user_request.get("query") or ""
+        user_query = request.args.get("q") or ""
 
+        logging.info(f"User query: {user_query}")
         result = self.searcher.rank_images(user_query, n=n)
         logging.info(result)
         return jsonify(results=result)
@@ -32,7 +32,7 @@ class RunFlaskCommand:
                                traverse=self.config.traverse,
                                save_path=self.config.save_path)
         CORS(app)
-        app.add_url_rule("/get_best_images", "get_best_images", self.get_best_images, methods=["POST"])
+        app.add_url_rule("/get_best_images", "get_best_images", self.get_best_images, methods=["GET"])
 
         if start:
             app.run(port=self.config.port,

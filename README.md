@@ -65,14 +65,19 @@ gunicorn "api.run_flask_gunicorn:create_app('/home/manu/perso/ImageSearcher/api/
     --timeout 20
 ```
 - Query it:
+
+Through the API endpoint online: http://127.0.0.1:5000/get_best_images?q=a+photo+of+a+bird
+
+Or in Python:
 ```python
 import requests
 import json
+import urllib.parse
 
-r = requests.post("http://127.0.0.1:5000/get_best_images", json={"query": "a photo of a bird"})
+query = "a photo of a bird"
+r = requests.get(f"http://127.0.0.1:5000/get_best_images?q={urllib.parse.quote(query)}")
 print(json.loads(r.content)["results"])
 ```
-
 ### Tips
 
 Using this tool with vacation photos, or Messenger and Whatsapp photo archives leads to rediscovering 

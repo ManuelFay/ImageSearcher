@@ -5,6 +5,7 @@ from typing import Optional
 @dataclass
 class FlaskConfig:
     image_dir_path: str
+    save_path: Optional[str] = None
     traverse: bool = True
 
     port: Optional[int] = None

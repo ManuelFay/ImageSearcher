@@ -1,4 +1,5 @@
 image_dir_path: /home/manu/Downloads/facebook_logs/messages/inbox/
+save_path:
 traverse: false
 
 port:

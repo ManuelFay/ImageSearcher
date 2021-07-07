@@ -96,7 +96,7 @@ pylint image_searcher
 
 This repo is a work in progress that has only recently been started. Support for batching computations and image loading,
 and using FAISS or other optimized libraries for vector computation is ongoing. As is, it computes
-about 8 images per second during the initial indexing phase, then is almost instantaneous during the querying 
+about 10 images per second during the initial indexing phase, then is almost instantaneous during the querying 
 phase.
 
 Feature requests and contributions are welcomed.

@@ -28,12 +28,13 @@ class RunFlaskCommand:
 
     def run(self, start=True):
         app = Flask(__name__, static_folder=None)
-        self.searcher = Search(image_dir_path=self.config.image_dir_path, traverse=self.config.traverse)
+        self.searcher = Search(image_dir_path=self.config.image_dir_path,
+                               traverse=self.config.traverse,
+                               save_path=self.config.save_path)
         CORS(app)
         app.add_url_rule("/get_best_images", "get_best_images", self.get_best_images, methods=["POST"])
 
         if start:
-            # TODO: Add a config file for better configurability
             app.run(port=self.config.port,
                     host=self.config.host,
                     debug=self.config.debug,

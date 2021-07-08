@@ -66,9 +66,11 @@ gunicorn "api.run_flask_gunicorn:create_app('/home/manu/perso/ImageSearcher/api/
 ```
 - Query it:
 
-Through the API endpoint online: http://127.0.0.1:5000/get_best_images?q=a+photo+of+a+bird
+By opening in a browser the webpage with the demo search engine `search.html`.
 
-Or in Python:
+Through the API endpoint online: `http://127.0.0.1:5000/get_best_images?q=a+photo+of+a+bird`
+
+In Python:
 ```python
 import requests
 import json

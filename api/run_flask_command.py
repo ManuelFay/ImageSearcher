@@ -16,13 +16,13 @@ class RunFlaskCommand:
         self.searcher = None
         self.config = FlaskConfig(**yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader))
 
-    def get_best_images(self, n: int = 10):
+    def get_best_images(self):
         """Routine that runs the QA inference pipeline.
         """
         user_query = request.args.get("q") or ""
 
         logging.info(f"User query: {user_query}")
-        result = self.searcher.rank_images(user_query, n=n)
+        result = self.searcher.rank_images(user_query, n=self.config.n)
         logging.info(result)
         return jsonify(results=result)
 

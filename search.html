@@ -33,6 +33,7 @@
             height: 22vw;
             object-fit: cover;
             border-radius: 0.75rem;
+            cursor: pointer;
         }
 
         #search-form {
@@ -72,7 +73,8 @@
 
         <button
                 type="submit"
-                class="button is-link is-medium">
+                class="button is-link is-medium"
+                @click="setMainImage(null)">
             {{ isSearching ? 'Searching' : 'Search' }}
         </button>
     </form>

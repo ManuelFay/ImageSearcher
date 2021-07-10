@@ -23,7 +23,7 @@ class RunFlaskCommand:
 
         logging.info(f"User query: {user_query}")
         result = self.searcher.rank_images(user_query, n=self.config.n)
-        logging.info(result)
+        # logging.info(result)
         return jsonify(results=result)
 
     def run(self, start=True):

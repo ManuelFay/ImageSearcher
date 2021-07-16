@@ -11,7 +11,7 @@ In a new Python 3.8+ virtual environment run:
 pip install -r dev_requirements.txt
 ```
 ## Usage
-Currently, the non-optimized usage is as follows. It computes the embeddings of all images one by one, and stores them in 
+Currently, the usage is as follows. It computes the embeddings of all images one by one, and stores them in 
 a picked dictionary for further reference.
 
 ```python
@@ -29,7 +29,7 @@ for image in ranked_images:
 
 ### Running through the API for efficient use
 
-The Flask API can be used to load models once and then search efficiently:
+After having indexed the images of interest, a Flask API can be used to load models once and then search efficiently.
 
 - Specify a Config YAML file:
   
@@ -101,9 +101,9 @@ pylint image_searcher
 
 ## Contributing
 
-This repo is a work in progress that has only recently been started. Support for batching computations and image loading,
-and using FAISS or other optimized libraries for vector computation is ongoing. As is, it computes
-about 10 images per second during the initial indexing phase, then is almost instantaneous during the querying 
-phase.
+This repo is a work in progress that has recently been started. Support for batching computations and image loading,
+using FAISS or other optimized libraries for vector computation, as well as image deduplication and adding additional info to the 
+API answer is ongoing. As is, it computes about 10 images per second during the initial indexing phase, then is almost instantaneous during the querying phase.
 
-Feature requests and contributions are welcomed.
+Feature requests and contributions are welcomed. Improvements to the Search Web interface would also
+be greatly appreciated !

@@ -35,10 +35,13 @@ class Search:
         if not waiting_list:
             return
 
-        for image_path in tqdm(waiting_list):
+        for idx, image_path in enumerate(tqdm(waiting_list)):
             try:
                 image = [self.loader.open_image(image_path)]
                 self.stored_embeddings.add_embedding(image_path, self.embedder.embed_images(image))
+                if idx % 1000 == 0:
+                    self.stored_embeddings.update_file()
+
             except Exception as exception:
                 logging.warning(f"Image {image_path} has failed to process - adding it to fail list.")
                 self.stored_embeddings.add_embedding(image_path, torch.zeros((1, 512)))

@@ -7,4 +7,3 @@ flask
 flask_cors
 
 pylint
-unittest

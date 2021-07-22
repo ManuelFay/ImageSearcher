@@ -1,8 +1,9 @@
-# WIP: ImageSearcher
+# ImageSearcher
 ### Leveraging CLIP to perform image search on personal pictures
 
 This repository implements an Image Search engine on local photos powered by the CLIP model.
-From initial tests, it looks very powerful and is able to find images given complex queries.
+It is surprisingly precise and is able to find images given complex queries. For more information, refer to
+the Medium blogpost [here](https://medium.com/@manuelfaysse/building-a-powerful-image-search-engine-for-your-pictures-using-deep-learning-16d06df10385?source=friends_link&sk=ca5130cb63a1fcb3a3e3f54ff494e56b).
 
 ## Setup
 

@@ -12,7 +12,7 @@ class TestEmbedder(unittest.TestCase):
 
     def test_image_embedder(self):
         image_paths = self.loader.search_tree()[:5]
-        inputs = self.embedder.embed_images([Image.open(file) for file in image_paths])
+        inputs = self.embedder.embed_images([Image.open(file).convert("RGB") for file in image_paths])
         self.assertTrue(inputs.shape[1] == 512)
 
     def test_text_embedder(self):

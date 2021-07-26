@@ -12,7 +12,11 @@ from image_searcher.embedders.clip_embedder import ClipEmbedder
 
 
 class Search:
-    def __init__(self, image_dir_path: str, traverse: bool = False, save_path: str = None):
+    def __init__(self, image_dir_path: str = None, traverse: bool = False, save_path: str = None):
+
+        assert (image_dir_path is not None or save_path is not None), "At least one of the paths " \
+                                                                      "(image and save path) needs to be specified"
+
         self.loader = ImageLoader(image_dir_path=image_dir_path, traverse=traverse)
 
         logging.info("Loading CLIP Embedder")
@@ -25,8 +29,9 @@ class Search:
         logging.info(f"Re-indexing the image files in {image_dir_path}")
         self.reindex()
 
-        logging.info(f"Excluding files from search if not in {image_dir_path}")
-        self.stored_embeddings.exclude_extra_files(filter_path=image_dir_path)
+        if image_dir_path:
+            logging.info(f"Excluding files from search if not in {image_dir_path}")
+            self.stored_embeddings.exclude_extra_files(filter_path=image_dir_path)
 
         logging.info(f"Setup over, Searcher is ready to be queried")
 
@@ -37,8 +42,8 @@ class Search:
 
         for idx, image_path in enumerate(tqdm(waiting_list)):
             try:
-                image = [self.loader.open_image(image_path)]
-                self.stored_embeddings.add_embedding(image_path, self.embedder.embed_images(image))
+                images = [self.loader.open_image(image_path)]
+                self.stored_embeddings.add_embedding(image_path, self.embedder.embed_images(images))
                 if idx % 1000 == 0:
                     self.stored_embeddings.update_file()
 

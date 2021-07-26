@@ -36,7 +36,9 @@ After having indexed the images of interest, a Flask API can be used to load mod
   
 ```yaml
 image_dir_path: /home/manu/Downloads/facebook_logs/messages/inbox/
+save_path: /home/manu/
 traverse: false
+n: 42
 
 port:
 host:
@@ -56,7 +58,7 @@ A gunicorn process can also be launched locally with:
 ```bash
 gunicorn "api.run_flask_gunicorn:create_app('/home/manu/perso/ImageSearcher/api/api_config.yml')" \
     --name image_searcher \
-    --bind 0.0.0.0:${GUNICORN_PORT:-8000} \
+    --bind 0.0.0.0:${GUNICORN_PORT:-5000} \
     --worker-tmp-dir /dev/shm \
     --workers=${GUNICORN_WORKERS:-2} \
     --threads=${GUNICORN_THREADS:-4} \

@@ -11,7 +11,6 @@ class TestSearch(unittest.TestCase):
         self.image_dir_path = "/home/manu/perso/ImageSearcher/data/"
         # self.image_dir_path = "/home/manu/Downloads/"
         self.tearDown()
-        self.searcher = Search(image_dir_path=self.image_dir_path)
 
     def tearDown(self) -> None:
         embed_path = os.path.join(self.image_dir_path, "stored_embeddings.pickle")
@@ -20,8 +19,12 @@ class TestSearch(unittest.TestCase):
             os.remove(embed_path)
 
     def test_searcher(self):
+        self.searcher = Search(image_dir_path=self.image_dir_path)
         ranked_images = self.searcher.rank_images("A photo of a fast vehicle.")
+        self.assertIsInstance(ranked_images, list)
+
+        self.searcher = Search(image_dir_path=None, save_path=self.image_dir_path)
+        ranked_images = self.searcher.rank_images("A photo of a fast vehicle.")
+        self.assertIsInstance(ranked_images, list)
         print(ranked_images)
 
-        ranked_images = self.searcher.rank_images("A photo of a bird.")
-        print(ranked_images)

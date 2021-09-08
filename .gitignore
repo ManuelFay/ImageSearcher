@@ -18,3 +18,4 @@ notebooks/
 *.pth
 *.sh
 .env
+notebooks

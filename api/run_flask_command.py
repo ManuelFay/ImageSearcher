@@ -26,13 +26,26 @@ class RunFlaskCommand:
         # logging.info(result)
         return jsonify(results=result)
 
+    def get_closest_faces(self):
+        """Routine that runs the QA inference pipeline.
+        """
+        image_query = request.args.get("q") or ""
+
+        logging.info(f"Image query: {image_query}")
+        result = self.searcher.rank_images_by_faces(image_query, n=self.config.n)
+        # logging.info(result)
+        return jsonify(results=result)
+
     def run(self, start=True):
         app = Flask(__name__, static_folder=None)
         self.searcher = Search(image_dir_path=self.config.image_dir_path,
                                traverse=self.config.traverse,
-                               save_path=self.config.save_path)
+                               save_path=self.config.save_path,
+                               reindex=self.config.reindex,
+                               include_faces=self.config.include_faces)
         CORS(app)
         app.add_url_rule("/get_best_images", "get_best_images", self.get_best_images, methods=["GET"])
+        app.add_url_rule("/get_closest_faces", "get_closest_faces", self.get_closest_faces, methods=["GET"])
 
         if start:
             app.run(port=self.config.port,

@@ -130,6 +130,7 @@ be greatly appreciated !
 Simplify and robustify the Search class instanciation:
 - Check indexation arguments are compatible with pre-loaded file
 - Store indexation arguments in pre-loaded file and give option to index new pictures with these options
+- Add the option to index for faces on previously CLIP indexed images
 
 Speed:
 - Parallel indexation / dynamic batching based on image size
@@ -142,3 +143,6 @@ Features:
 
 Embedding files:
 - Integrate with local version control (git-lfs ?)
+
+Frontend:
+- Overall UX and design changes

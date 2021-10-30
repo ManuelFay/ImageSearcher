@@ -6,7 +6,8 @@ It is surprisingly precise and is able to find images given complex queries. For
 the Medium blogpost [here](https://medium.com/@manuelfaysse/building-a-powerful-image-search-engine-for-your-pictures-using-deep-learning-16d06df10385?source=friends_link&sk=ca5130cb63a1fcb3a3e3f54ff494e56b).
 
 The added functionality of classifying pictures depending on the persons portrayed is implemented 
-with the `face_recognition` library.
+with the `face_recognition` library. Several filters are also available, enabling you to find your 
+group pictures, screenshots, etc...
 
 ## Setup
 

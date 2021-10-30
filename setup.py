@@ -10,6 +10,7 @@ setup(
     description="Image Search module",
     author="Manuel Faysse",
     author_email='manuel.fay@gmail.com',
+    download_url="https://github.com/ManuelFay/ImageSearcher/archive/refs/tags/v0.0.1.tar.gz",
     packages=find_packages(include=["image_searcher", "image_searcher.*"]),
     install_requires=[
         "torch",

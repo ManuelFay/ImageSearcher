@@ -11,10 +11,22 @@ group pictures, screenshots, etc...
 
 ## Setup
 
-In a new Python 3.8+ virtual environment run:
+In a Python 3.8+ virtual environment, install either from PIP or from source:
+
+####Installation from the PIP package:
+```bash
+pip install image-searcher
+
+pip install face_recognition  # Optional to enable face features
+pip install flask flask_cors  # Optional to enable a flask api
+```
+
+#### Installation from source
 ```bash
 pip install -r dev_requirements.txt
-pip install face_recognition  # Optional
+
+pip install face_recognition  # Optional to enable face features
+pip install flask flask_cors  # Optional to enable a flask api
 ```
 
 Troubleshooting: If problems are encountered building wheels for dlib during the face_recognition installation, make sure to install the `python3.8-dev`
@@ -22,7 +34,7 @@ package (respectively `python3.x-dev`) and recreate the virtual environment from
 once it is installed.
 
 ## Usage
-Currently, the usage is as follows. It computes the embeddings of all images one by one, and stores them in 
+Currently, the usage is as follows. The library first computes the embeddings of all images one by one, and stores them in 
 a picked dictionary for further reference. To compute and store information about the persons in 
 the picture, enable the `include_faces` flag (note that it makes the indexing process up to 10x slower).
 
@@ -30,6 +42,14 @@ the picture, enable the `include_faces` flag (note that it makes the indexing pr
 from image_searcher import Search
 
 searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", traverse=True, include_faces=False)
+```
+
+Once this process has been done once, through Python, the library is used as such:
+```python
+from image_searcher import Search
+
+searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", traverse=True, include_faces=False)
+
 ranked_images = searcher.rank_images("A photo of a bird.", n=5)
 
 # Display best images
@@ -71,16 +91,15 @@ threaded:
 ```
 #### Start a server:
 ```python
-from api.run_flask_command import RunFlaskCommand
+from image_searcher.api import run
 
-command = RunFlaskCommand(config_path="/home/manu/perso/ImageSearcher/api/api_config.yml")
-command.run()
+run(config_path="path_to_config_file.yml")
 ```
 
 A gunicorn process can also be launched locally with:
 
 ```bash
-gunicorn "api.run_flask_gunicorn:create_app('/home/manu/perso/ImageSearcher/api/api_config.yml')" \
+gunicorn "api.run_flask_gunicorn:create_app('path_to_config_file.yml')" \
     --name image_searcher \
     --bind 0.0.0.0:${GUNICORN_PORT:-5000} \
     --worker-tmp-dir /dev/shm \

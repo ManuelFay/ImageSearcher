@@ -6,7 +6,7 @@ from flask import request, jsonify
 from flask_cors import CORS
 
 from image_searcher import Search
-from api.flask_config import FlaskConfig
+from image_searcher.api.flask_config import FlaskConfig
 
 
 class RunFlaskCommand:
@@ -55,6 +55,6 @@ class RunFlaskCommand:
         return app
 
 
-if __name__ == "__main__":
-    command = RunFlaskCommand(config_path="/home/manu/perso/ImageSearcher/api/api_config.yml")
+def run(config_path: str):
+    command = RunFlaskCommand(config_path=config_path)
     command.run()

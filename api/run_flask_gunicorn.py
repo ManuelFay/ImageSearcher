@@ -1,5 +1,5 @@
 from flask import Flask
-from api.run_flask_command import RunFlaskCommand
+from image_searcher.api.run_flask_command import RunFlaskCommand
 
 
 def create_app(config_path: str) -> Flask:

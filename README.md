@@ -41,9 +41,7 @@ for image in ranked_images:
 ### Using tags in the query
 Adding tags at the end of the query (example: `A bird singing #photo`) will filter the search based on the tag list.
 Supported tags for the moment are:
-  - \#screenshot: Screenshots
-  - \#drawings: Drawings
-  - \#photo: Photos
+  - \#{category}: Amongst "screenshot", "drawing", "photo", "schema", "selfie"
 
 
 ### Running through the API for efficient use

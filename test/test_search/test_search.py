@@ -28,3 +28,29 @@ class TestSearch(unittest.TestCase):
         self.assertIsInstance(ranked_images, list)
         print(ranked_images)
 
+    def test_searcher_tags(self):
+        self.searcher = Search(image_dir_path=self.image_dir_path)
+        ranked_images = self.searcher.rank_images("A photo of a fast vehicle. #photo")
+        self.assertIsInstance(ranked_images, list)
+
+    def test_query_parser(self):
+        self.searcher = Search(image_dir_path=self.image_dir_path)
+        query, tags = self.searcher.parse_query("A photo of a fast vehicle.")
+        self.assertIsInstance(query, str)
+        self.assertIsInstance(tags, list)
+        self.assertTrue(len(tags) == 0)
+
+        query, tags = self.searcher.parse_query("A photo of a fast vehicle. #car #ootd #speed")
+        self.assertIsInstance(query, str)
+        self.assertIsInstance(tags, list)
+        self.assertTrue(len(tags) == 3)
+
+        query, tags = self.searcher.parse_query("#car #ootd #speed")
+        self.assertIsInstance(query, str)
+        self.assertIsInstance(tags, list)
+        self.assertTrue(len(tags) == 3)
+
+        query, tags = self.searcher.parse_query("")
+        self.assertIsInstance(query, str)
+        self.assertIsInstance(tags, list)
+        self.assertTrue(len(tags) == 0)

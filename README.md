@@ -38,6 +38,14 @@ for image in ranked_images:
     Image.open(image.image_path).convert('RGB').show()
 ```
 
+### Using tags in the query
+Adding tags at the end of the query (example: `A bird singing #photo`) will filter the search based on the tag list.
+Supported tags for the moment are:
+  - \#screenshot: Screenshots
+  - \#drawings: Drawings
+  - \#photo: Photos
+
+
 ### Running through the API for efficient use
 
 After having indexed the images of interest, a Flask API can be used to load models once and then search efficiently.

@@ -1,7 +1,9 @@
 # pylint:disable=no-member
-from typing import List
+from typing import List, Tuple
 import logging
 
+import re
+import numpy as np
 import torch
 from tqdm import tqdm
 
@@ -76,10 +78,56 @@ class Search:
             self.stored_embeddings.add_embedding(image_path, torch.zeros((1, 512)))
             logging.warning(exception)
 
+    @staticmethod
+    def parse_query(query) -> Tuple[str, List[str]]:
+        """
+        Parse query and find tags
+        :param query: input query
+        :return: Seaparated query and list of tags
+        """
+        matches = re.findall(r"\B(\#[a-zA-Z]+\b)", query)
+        for match in matches:
+            query = query.replace(match, "")
+        return query.strip(), [tag[1:] for tag in matches]
+
+    def filter_images(self, tags):
+        """
+        Filter the search pool based on predetermined tags:
+        Supported tags are:
+        - #groups: WIP: Group pictures (more than 5 persons)
+        - #{category}: Amongst "screenshot", "drawing", "photo", "schema", "selfie"
+
+        :param tags: Filtering tags from a list
+        :return: image_embeds, image_paths to feed into the ranking system
+        """
+        image_embeds, image_paths = self.stored_embeddings.get_embedding_tensor()
+        mask = torch.ones((len(image_paths)), dtype=torch.bool)
+
+        categories = ["screenshot", "drawing", "photo", "schema", "selfie"]
+        for tag in tags:
+            if tag in categories:
+                tag_embed = self.embedder.embed_text(f"This image is a {tag}")
+                categories.remove(tag)
+                opposite_tags_embed = [self.embedder.embed_text(f"This image is a {op_tag}") for op_tag in categories]
+                for opposite_tag_embed in opposite_tags_embed:
+                    mask = mask & (torch.matmul(tag_embed, image_embeds.t()) > torch.matmul(opposite_tag_embed,
+                                                                                            image_embeds.t())).squeeze()
+                logging.info(f"Filtered non {tag} pictures")
+
+            if tag == "group":
+                raise NotImplementedError
+
+        if mask.sum().item() == 0:
+            logging.warning("Tags filtered out all original pictures. Filtering desactivated.")
+            return image_embeds, image_paths
+
+        return image_embeds[mask], list(np.array(image_paths)[mask.numpy()])
+
     def rank_images(self, query: str, n: int = 10) -> List[RankedImage]:
         assert isinstance(query, str)
+        query, tags = self.parse_query(query)
         text_embeds = self.embedder.embed_text(query)
-        image_embeds, image_paths = self.stored_embeddings.get_embedding_tensor()
+        image_embeds, image_paths = self.filter_images(tags)
 
         scores = (torch.matmul(text_embeds, image_embeds.t()) * 100).softmax(dim=1).squeeze().numpy().astype(float)
         best_images = sorted(list(zip(image_paths, scores)), key=lambda x: x[1], reverse=True)[:n]

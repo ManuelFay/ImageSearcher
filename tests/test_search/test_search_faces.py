@@ -8,8 +8,7 @@ from image_searcher.search.search import Search
 class TestSearch(unittest.TestCase):
     def setUp(self):
         logging.basicConfig(filename=None, level=logging.INFO)
-        self.image_dir_path = "/home/manu/perso/ImageSearcher/data/"
-        # self.image_dir_path = "/home/manu/Downloads/"
+        self.image_dir_path = "./tests/test_data"
         self.tearDown()
 
     def tearDown(self) -> None:

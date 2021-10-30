@@ -13,6 +13,7 @@ setup(
     packages=find_packages(include=["image_searcher", "image_searcher.*"]),
     install_requires=[
         "torch",
+        "numpy",
         "ftfy",
         "transformers",
         "Pillow",

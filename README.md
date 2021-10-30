@@ -157,3 +157,7 @@ Embedding files:
 
 Frontend:
 - Overall UX and design changes
+- Enable Image upload
+
+Deployment:
+- Dockerize and orchestrate containers (image uploader, storage, indexation pipeline, inference)

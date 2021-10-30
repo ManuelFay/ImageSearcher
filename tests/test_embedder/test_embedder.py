@@ -7,7 +7,7 @@ from image_searcher.embedders.clip_embedder import ClipEmbedder
 
 class TestEmbedder(unittest.TestCase):
     def setUp(self):
-        self.loader = ImageLoader(image_dir_path="/home/manu/Downloads", traverse=True)
+        self.loader = ImageLoader(image_dir_path="./tests/test_data", traverse=True)
         self.embedder = ClipEmbedder()
 
     def test_image_embedder(self):

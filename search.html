@@ -89,9 +89,20 @@
                     <img class="image"
                          @click="setMainImage(null)"
                          :src="'file://' + this.mainImage"
-
                     >
+                    <h3>Same persons</h3>
+                    <div class="gallery" v-for="(people, index) in faceImages">
+                        <h3>Person {{index}}</h3>
+                        <div class="gallery-panel" v-for="image in people">
+                            <img class="image"
+                                 @click="setMainImage(image.image_path)"
+                                 :src="'file://' + image.image_path"
+                                 contain
+                                 width="500px">
+                        </div>
+                    </div>
                 </div>
+
                 <div class="gallery" v-else-if="images.length">
                     <div class="gallery-panel" v-for="image in images">
                         <img class="image"
@@ -115,7 +126,9 @@
         data() {
             return {
                 apiUrl: 'http://127.0.0.1:5000/get_best_images',
+                apiUrlFaces: 'http://127.0.0.1:5000/get_closest_faces',
                 images: null,
+                faceImages: null,
                 mainImage: null,
                 isSearching: false,
                 query: ''
@@ -125,23 +138,33 @@
             search() {
                 if (this.query) {
                     this.images = [];
+                    this.faceImages = []
                     this.isSearching = true;
                     const searchQuery = encodeURIComponent(this.query);
 
                     axios.get(`${this.apiUrl}?q=${searchQuery}`)
                         .then(res => {
-                            if (1 != 0) {
-                                this.images = res.data.results
-                                this.isSearching = false;
-                            } else {
-                                this.isSearching = false;
-                            }
+                            this.images = res.data.results
+                            this.isSearching = false;
                         })
                 }
             },
             setMainImage(path) {
                 console.log(path)
                 this.mainImage = path;
+
+                if (this.mainImage != null) {
+                    const searchQuery = encodeURIComponent(path);
+
+                    axios.get(`${this.apiUrlFaces}?q=${searchQuery}`)
+                        .then(res => {
+                            this.faceImages = res.data.results
+                        })
+                    window.scrollTo(0,0);
+                } else {
+                    this.face_images = []
+                }
+
             }
         }
     })

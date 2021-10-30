@@ -18,7 +18,8 @@ class ImageLoader:
             for root, dirs, files in os.walk(self.image_dir_path):
                 if self.exclude_hidden:
                     dirs[:] = [d for d in dirs if not d[0] == '.']
-                image_files.extend([os.path.join(root, file) for file in files if file.lower().endswith(self.accepted_formats)])
+                image_files.extend(
+                    [os.path.join(root, file) for file in files if file.lower().endswith(self.accepted_formats)])
         elif self.image_dir_path:
             image_files = [os.path.join(self.image_dir_path, file) for file in os.listdir(self.image_dir_path)
                            if file.lower().endswith(self.accepted_formats)]

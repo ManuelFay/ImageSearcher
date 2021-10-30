@@ -1,6 +1,8 @@
 image_dir_path: /home/manu/Downloads/facebook_logs/messages/inbox/
-save_path: /home/manu/
-traverse: false
+save_path: /home/manu/Downloads/facebook_logs/
+traverse: true
+include_faces: true
+reindex: false
 n: 42
 
 port:

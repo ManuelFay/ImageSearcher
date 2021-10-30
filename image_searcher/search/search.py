@@ -112,10 +112,11 @@ class Search:
                 for opposite_tag_embed in opposite_tags_embed:
                     mask = mask & (torch.matmul(tag_embed, image_embeds.t()) > torch.matmul(opposite_tag_embed,
                                                                                             image_embeds.t())).squeeze()
-                logging.info(f"Filtered non {tag} pictures")
+                logging.info(f"Filtered non {tag} images")
 
-            if tag == "group":
-                raise NotImplementedError
+            if tag == "group" and self.face_embedder:
+                _, idx2path = self.stored_embeddings.get_all_face_embeddings()
+                mask = mask & torch.Tensor([idx2path.count(image_path) > 4 for image_path in image_paths]).bool()
 
         if mask.sum().item() == 0:
             logging.warning("Tags filtered out all original pictures. Filtering desactivated.")
@@ -128,7 +129,8 @@ class Search:
         query, tags = self.parse_query(query)
         text_embeds = self.embedder.embed_text(query)
         image_embeds, image_paths = self.filter_images(tags)
-
+        if len(image_paths) == 1:
+            return [RankedImage(image_path=image_paths[0], score=1)]
         scores = (torch.matmul(text_embeds, image_embeds.t()) * 100).softmax(dim=1).squeeze().numpy().astype(float)
         best_images = sorted(list(zip(image_paths, scores)), key=lambda x: x[1], reverse=True)[:n]
 

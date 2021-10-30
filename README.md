@@ -43,6 +43,10 @@ Adding tags at the end of the query (example: `A bird singing #photo`) will filt
 Supported tags for the moment are:
   - \#{category}: Amongst "screenshot", "drawing", "photo", "schema", "selfie"
 
+To come is support for:
+  - \groups: Group pictures
+  - \dates: Filtering based on the time period
+
 
 ### Running through the API for efficient use
 

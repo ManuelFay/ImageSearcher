@@ -5,9 +5,9 @@ extras = {
 }
 
 setup(
-    name="Image-Search",
+    name="Image-Searcher",
     version="v0.0.1",
-    description="Image Search module",
+    description="Image Searcher module",
     author="Manuel Faysse",
     author_email='manuel.fay@gmail.com',
     download_url="https://github.com/ManuelFay/ImageSearcher/archive/refs/tags/v0.0.1.tar.gz",

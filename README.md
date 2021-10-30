@@ -42,10 +42,11 @@ for image in ranked_images:
 Adding tags at the end of the query (example: `A bird singing #photo`) will filter the search based on the tag list.
 Supported tags for the moment are:
   - \#{category}: Amongst "screenshot", "drawing", "photo", "schema", "selfie"
+  - \#groups: Group pictures (more than 5 people)
 
 To come is support for:
-  - \groups: Group pictures
-  - \dates: Filtering based on the time period
+  
+  - \#dates: Filtering based on the time period
 
 
 ### Running through the API for efficient use

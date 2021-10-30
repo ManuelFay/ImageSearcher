@@ -29,8 +29,13 @@ class TestSearch(unittest.TestCase):
         print(ranked_images)
 
     def test_searcher_tags(self):
-        self.searcher = Search(image_dir_path=self.image_dir_path)
+        self.searcher = Search(image_dir_path=self.image_dir_path, include_faces=True)
         ranked_images = self.searcher.rank_images("A photo of a fast vehicle. #photo")
+        self.assertIsInstance(ranked_images, list)
+
+    def test_searcher_tags_group(self):
+        self.searcher = Search(image_dir_path=self.image_dir_path, include_faces=True)
+        ranked_images = self.searcher.rank_images("A photo of a fast vehicle. #group")
         self.assertIsInstance(ranked_images, list)
 
     def test_query_parser(self):

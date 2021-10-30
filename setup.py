@@ -6,7 +6,7 @@ extras = {
 
 setup(
     name="Image-Search",
-    version="DEV",
+    version="v0.0.1",
     description="Image Search module",
     author="Manuel Faysse",
     author_email='manuel.fay@gmail.com',

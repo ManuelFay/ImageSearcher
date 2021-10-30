@@ -19,3 +19,4 @@ notebooks/
 *.sh
 .env
 notebooks
+dist/

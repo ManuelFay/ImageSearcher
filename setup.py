@@ -14,7 +14,7 @@ setup(
     long_description_content_type='text/markdown',
     author="Manuel Faysse",
     author_email='manuel.fay@gmail.com',
-    download_url="https://github.com/ManuelFay/ImageSearcher/archive/refs/tags/v0.0.2.tar.gz",
+    download_url="https://github.com/ManuelFay/ImageSearcher/archive/refs/tags/v0.0.3.tar.gz",
     url="https://github.com/ManuelFay/ImageSearcher",
     keywords=['search engine', 'image', 'image search', 'CLIP'],
     packages=find_packages(include=["image_searcher", "image_searcher.*"]),

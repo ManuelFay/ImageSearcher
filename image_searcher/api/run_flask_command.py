@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 import yaml
 
 from flask import Flask
@@ -12,9 +13,19 @@ from image_searcher.api.flask_config import FlaskConfig
 class RunFlaskCommand:
     logging.basicConfig(level=logging.INFO)
 
-    def __init__(self, config_path: str):
-        self.searcher = None
-        self.config = FlaskConfig(**yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader))
+    def __init__(self, config_path: Optional[str] = None, searcher: Optional[Search] = None):
+        if config_path is None and searcher is None:
+            raise AttributeError("Either the config path or the searcher need to be defined")
+
+        self.searcher = searcher
+        if config_path:
+            self.config = FlaskConfig(**yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader))
+        else:
+            self.config = FlaskConfig(image_dir_path=self.searcher.loader.image_dir_path,
+                                      traverse=self.searcher.loader.traverse,
+                                      save_path=self.searcher.stored_embeddings.save_path,
+                                      reindex=False,
+                                      include_faces=len(self.searcher.stored_embeddings.face_embedding_paths) > 0)
 
     def get_best_images(self):
         """Routine that runs the QA inference pipeline.
@@ -55,6 +66,6 @@ class RunFlaskCommand:
         return app
 
 
-def run(config_path: str):
-    command = RunFlaskCommand(config_path=config_path)
+def run(**kwargs):
+    command = RunFlaskCommand(**kwargs)
     command.run()

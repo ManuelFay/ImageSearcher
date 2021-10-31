@@ -13,7 +13,7 @@ group pictures, screenshots, etc...
 
 In a Python 3.8+ virtual environment, install either from PIP or from source:
 
-####Installation from the PIP package:
+#### Installation from the PIP package:
 ```bash
 pip install image-searcher
 
@@ -41,22 +41,29 @@ the picture, enable the `include_faces` flag (note that it makes the indexing pr
 ```python
 from image_searcher import Search
 
-searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", traverse=True, include_faces=False)
+searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", 
+                  traverse=True, 
+                  include_faces=False)
 ```
 
 Once this process has been done once, through Python, the library is used as such:
 ```python
 from image_searcher import Search
 
-searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", traverse=True, include_faces=False)
+searcher = Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", 
+                  traverse=True, 
+                  include_faces=False)
 
-ranked_images = searcher.rank_images("A photo of a bird.", n=5)
-
-# Display best images
+# Option 1: Pythonic API
 from PIL import Image
 
+ranked_images = searcher.rank_images("A photo of a bird.", n=5)
 for image in ranked_images:
     Image.open(image.image_path).convert('RGB').show()
+
+# Option 2: Launch Flask api from code
+from image_searcher.api import run
+run(searcher=searcher)
 ```
 
 ### Using tags in the query
@@ -93,7 +100,15 @@ threaded:
 ```python
 from image_searcher.api import run
 
+# Option 1: Through a config file
 run(config_path="path_to_config_file.yml")
+
+# Option 2: Through an instanciated Search object
+from image_searcher import Search
+
+run(searcher=Search(image_dir_path="/home/manu/perso/ImageSearcher/data/", 
+                    traverse=True, 
+                    include_faces=False))
 ```
 
 A gunicorn process can also be launched locally with:

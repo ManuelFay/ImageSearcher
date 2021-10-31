@@ -7,5 +7,5 @@ def create_app(config_path: str) -> Flask:
     Entry point for gunicorn
     """
 
-    command = RunFlaskCommand(config_path)
+    command = RunFlaskCommand(config_path=config_path)
     return command.run(start=False)

@@ -54,8 +54,7 @@ class StoredEmbeddings:
         embedding_path = []
 
         for key, value in self.embeddings.items():
-            # TODO: This line should not be needed
-            if "face_embeddings" in value.keys():
+            if "face_embeddings" in value.keys():   # Normally, this line should not be needed
                 for x in value["face_embeddings"]:
                     face_embeddings.append(x)
                     embedding_path.append(key)

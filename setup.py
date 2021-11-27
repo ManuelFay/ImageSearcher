@@ -8,7 +8,7 @@ extras = {
 
 setup(
     name="image-searcher",
-    version="v0.0.2",
+    version="v0.0.3",
     description="Image Searcher based on semantic query understanding for your own pictures.",
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type='text/markdown',

@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 from pathlib import Path
 
 extras = {
-    "face_recognition": ["face_recognition"],
-    "server": ["flask", "flask_cors"]
+    "face_recognition": ["face_recognition==1.3.0"],
+    "server": ["flask>=2.0.0, <3.0.0", "flask_cors"]
 }
 
 setup(
@@ -19,11 +19,11 @@ setup(
     keywords=['search engine', 'image', 'image search', 'CLIP'],
     packages=find_packages(include=["image_searcher", "image_searcher.*"]),
     install_requires=[
-        "torch",
-        "numpy",
-        "ftfy",
-        "transformers",
-        "Pillow",
+        "torch>=1.7.0,<1.13.0",
+        "numpy>=1.20.0,<2.0.0",
+        "ftfy>=6.0.0, <7.0.0",
+        "transformers>=4.9.0,<5.0.0",
+        "Pillow>=8.3.0,<9.0.0",
     ],
     extras_require=extras,
     python_requires=">=3.7,<4.0",

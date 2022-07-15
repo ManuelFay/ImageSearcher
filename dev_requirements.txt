@@ -6,4 +6,4 @@ gunicorn
 
 pylint
 twine
-unittest
+pytest

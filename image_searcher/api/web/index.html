@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ImageSearcher</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="ImageSearcher home">
+            <span class="brand-mark">IS</span>
+            <span>
+                <strong>ImageSearcher</strong>
+                <small>Search your local library</small>
+            </span>
+        </a>
+        <button class="ghost hidden" id="return-button" type="button">Back to results</button>
+    </header>
+
+    <main class="shell">
+        <section class="hero" id="hero">
+            <p class="eyebrow">Semantic photo search</p>
+            <h1>Find the moment you remember.</h1>
+            <p class="intro">Describe a scene, a place, or a mood. Refine results with a supported tag.</p>
+            <form id="search-form" class="search-form">
+                <label class="sr-only" for="query">Search photos</label>
+                <input id="query" name="q" type="search" autocomplete="off"
+                       placeholder="A sunny picnic with friends" required>
+                <button id="search-button" type="submit">Search</button>
+            </form>
+            <div class="tags" aria-label="Suggested filters">
+                <button type="button" data-tag="#photo">#photo</button>
+                <button type="button" data-tag="#selfie">#selfie</button>
+                <button type="button" data-tag="#drawing">#drawing</button>
+                <button type="button" data-tag="#screenshot">#screenshot</button>
+                <button type="button" data-tag="#group">#group</button>
+            </div>
+        </section>
+
+        <section class="status hidden" id="status" aria-live="polite"></section>
+
+        <section class="results hidden" id="results-view" aria-label="Search results">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Results</p>
+                    <h2 id="results-title"></h2>
+                </div>
+                <span class="count" id="results-count"></span>
+            </div>
+            <div class="gallery" id="gallery"></div>
+        </section>
+
+        <section class="detail hidden" id="detail-view" aria-label="Selected photo">
+            <div class="selected">
+                <button class="image-button selected-image" id="selected-image-button" type="button"
+                        aria-label="Return to all results">
+                    <img id="selected-image" alt="">
+                </button>
+                <div class="selected-meta">
+                    <p class="eyebrow">Selected photo</p>
+                    <h2 id="selected-name"></h2>
+                    <p class="path" id="selected-path"></p>
+                    <dl class="metadata" id="selected-metadata"></dl>
+                    <div class="detail-actions">
+                        <button class="ghost hidden" id="previous-image" type="button">Go back</button>
+                        <button class="primary-link" id="return-inline" type="button">View all results</button>
+                    </div>
+                </div>
+            </div>
+            <div class="context-grid">
+                <section class="context-panel">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Conversation</p>
+                            <h2>From this conversation</h2>
+                        </div>
+                    </div>
+                    <div class="gallery context-gallery" id="conversation-images"></div>
+                </section>
+                <section class="context-panel">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Nearby in time</p>
+                            <h2>From similar timestamps</h2>
+                        </div>
+                    </div>
+                    <div class="gallery context-gallery" id="timestamp-images"></div>
+                </section>
+            </div>
+            <div class="faces" id="faces-view">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Face match</p>
+                        <h2>Photos with the same people</h2>
+                    </div>
+                </div>
+                <div id="face-groups"></div>
+            </div>
+        </section>
+    </main>
+
+    <template id="card-template">
+        <button class="card image-button" type="button">
+            <img loading="lazy" alt="">
+            <span class="card-meta">
+                <strong></strong>
+                <small></small>
+            </span>
+        </button>
+    </template>
+
+    <script src="/assets/app.js" defer></script>
+</body>
+</html>

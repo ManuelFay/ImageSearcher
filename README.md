@@ -77,9 +77,10 @@ To come is support for:
   - \#dates: Filtering based on the time period
 
 
-### Running through the API for efficient use
+### Running the local web interface and API
 
-After having indexed the images of interest, a Flask API can be used to load models once and then search efficiently.
+After having indexed the images of interest, the Flask application loads models once and serves both the API and a
+browser interface for navigating results.
 
 #### Specify a Config YAML file:
   
@@ -111,12 +112,12 @@ run(searcher=Search(image_dir_path="/home/manu/perso/ImageSearcher/data/",
                     include_faces=False))
 ```
 
-A gunicorn process can also be launched locally with:
+For local browser use, launch the application with Gunicorn from the repository root:
 
 ```bash
-gunicorn "api.run_flask_gunicorn:create_app('path_to_config_file.yml')" \
+./venv/bin/gunicorn "api.run_flask_gunicorn:create_app('config.yaml')" \
     --name image_searcher \
-    --bind 0.0.0.0:${GUNICORN_PORT:-5000} \
+    --bind 127.0.0.1:${GUNICORN_PORT:-5000} \
     --worker-tmp-dir /dev/shm \
     --workers=${GUNICORN_WORKERS:-2} \
     --threads=${GUNICORN_THREADS:-4} \
@@ -129,11 +130,30 @@ gunicorn "api.run_flask_gunicorn:create_app('path_to_config_file.yml')" \
 Note: Adapt the timeout parameter (in seconds) if a lot of new images are being indexed/
 
 
-#### Query it:
+#### Use the web interface
 
-- By opening in a browser the webpage with the demo search engine `search.html`.
+Open `http://127.0.0.1:5000/` in a browser after starting the server.
 
-- Through the API endpoint online: `http://127.0.0.1:5000/get_best_images?q=a+photo+of+a+bird`
+The web interface supports:
+
+- Semantic text search and supported tag shortcuts such as `#photo`, `#selfie`, and `#group`.
+- A detail view for each result, including dimensions, file size, and the best available date metadata.
+- Face-similarity navigation when `include_faces: true`.
+- Related photos from the same Messenger conversation when the collection follows an
+  `inbox/<conversation>/photos/` export layout.
+- Related photos captured or shared at nearby timestamps.
+- Picture-by-picture history navigation with a back button while following related images.
+
+For timestamp metadata, Messenger exports are read from adjacent `message_*.json` files when available. For regular
+image folders, EXIF capture dates are used when present; otherwise the filesystem modification date is displayed as a
+fallback.
+
+#### Query the API
+
+- Through the search endpoint: `http://127.0.0.1:5000/get_best_images?q=a+photo+of+a+bird`
+
+- For contextual metadata and related photos:
+  `http://127.0.0.1:5000/image_context?path=/absolute/path/to/an/image.jpg`
 
 - In Python:
 ```python
@@ -156,6 +176,12 @@ Run the tests with
 
 ```bash
 python -m unittest
+```
+
+The local web interface route tests can be run with:
+
+```bash
+python -m unittest tests.test_api.test_web_interface
 ```
 
 and lint with:
@@ -191,7 +217,6 @@ Embedding files:
 - Integrate with local version control (git-lfs ?)
 
 Frontend:
-- Overall UX and design changes
 - Enable Image upload
 
 Deployment:

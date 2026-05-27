@@ -138,18 +138,25 @@ class Search:
 
     def rank_images_by_faces(self, image_path: str, n: int = 10) -> List[List[RankedImage]]:
         assert isinstance(image_path, str)
-        best_faces = []
 
         try:
             all_face_embeddings, idx2path = self.stored_embeddings.get_all_face_embeddings()
             face_embeds = self.stored_embeddings.embeddings[image_path]["face_embeddings"]
+            if not face_embeds or not idx2path:
+                return []
 
-            for embed in face_embeds:
-                scores = torch.linalg.norm(torch.Tensor([embed]) - all_face_embeddings, dim=1).numpy().astype(float)
-                best_images: List = sorted(list(zip(idx2path, scores)), key=lambda x: x[1], reverse=False)[:n]
-                best_faces.append([RankedImage(image_path=path, score=score) for path, score in best_images])
+            query_faces = torch.from_numpy(np.asarray(face_embeds, dtype=np.float32))
+            distances = torch.cdist(query_faces, all_face_embeddings)
+            result_count = min(n, len(idx2path))
+            scores, indexes = torch.topk(distances, k=result_count, dim=1, largest=False, sorted=True)
 
-            return best_faces
+            return [
+                [
+                    RankedImage(image_path=idx2path[index], score=float(score))
+                    for score, index in zip(face_scores, face_indexes)
+                ]
+                for face_scores, face_indexes in zip(scores, indexes)
+            ]
 
         except KeyError:
             return []

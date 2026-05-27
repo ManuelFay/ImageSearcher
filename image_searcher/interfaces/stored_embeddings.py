@@ -2,6 +2,7 @@
 import pickle
 import os
 
+import numpy as np
 import torch
 
 
@@ -49,7 +50,6 @@ class StoredEmbeddings:
         return self.face_embedding_tensor, self.face_embedding_paths
 
     def set_all_face_embeddings(self):
-        # comprehension: torch.Tensor(np.array(list(x for y in self.embeddings.values() for x in y["face_embeddings"])))
         face_embeddings = []
         embedding_path = []
 
@@ -58,7 +58,10 @@ class StoredEmbeddings:
                 for x in value["face_embeddings"]:
                     face_embeddings.append(x)
                     embedding_path.append(key)
-        self.face_embedding_tensor = torch.Tensor(face_embeddings)
+        if face_embeddings:
+            self.face_embedding_tensor = torch.from_numpy(np.asarray(face_embeddings, dtype=np.float32))
+        else:
+            self.face_embedding_tensor = torch.empty(0)
         self.face_embedding_paths = embedding_path
 
     def update_file(self, ignore_flag: bool = False):
